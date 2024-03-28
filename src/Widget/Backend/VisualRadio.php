@@ -11,13 +11,32 @@ use Contao\StringUtil;
 class VisualRadio extends RadioButton
 {
     protected $strTemplate = 'be_widget';
+    private string $imagePath;
+    private string $imageExt;
 
-    public function __construct(array $attributes = null)
+    public function __construct(array $arrAttributes = null)
     {
-        parent::__construct($attributes);
+        parent::__construct($arrAttributes);
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
+    }
+
+    public function __set($strKey, $varValue): void
+    {
+        switch ($strKey) {
+            case 'imagePath':
+                $this->imagePath = $varValue;
+                break;
+
+            case 'imageExt':
+                $this->imageExt = $varValue;
+                break;
+
+            default:
+                parent::__set($strKey, $varValue);
+                break;
+        }
     }
 
     public function generate(): string
