@@ -1,38 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Guave\VisualRadioBundle\Widget\Backend;
 
 use Contao\Image;
-use Contao\Widget;
+use Contao\RadioButton;
+use Contao\StringUtil;
 
-class VisualRadio extends Widget
+class VisualRadio extends RadioButton
 {
-    protected $blnSubmitInput = true;
-    protected $blnForAttribute = true;
     protected $strTemplate = 'be_widget';
+
+    public function __construct(array $attributes = null)
+    {
+        parent::__construct($attributes);
+
+        $this->preserveTags = true;
+        $this->decodeEntities = true;
+    }
 
     public function generate(): string
     {
-        $html = '';
-        foreach ($this->options as $option) {
-            $id = $this->strName . '_' . $option['value'];
-            $image = $this->imagePath . '/' . $option['value'] . $this->imageExt;
-            $active = $this->varValue === $option['value'];
+        $arrOptions = [];
+        $arrAllOptions = $this->arrOptions;
 
-            $html .= sprintf(
-                '<div style="width:25%%;display:inline-block;text-align:center;margin-bottom:20px;">'
-                . '<input type="radio" id="%s" name="%s" value="%s"%s/>'
-                . '<label for="%s">%s</label>'
-                . '</div>',
-                $id,
+        if (isset($this->unknownOption[0])) {
+            $arrAllOptions[] = [
+                'value' => $this->unknownOption[0],
+                'label' => sprintf($GLOBALS['TL_LANG']['MSC']['unknownOption'], $this->unknownOption[0]),
+            ];
+        }
+
+        foreach ($arrAllOptions as $arrOption) {
+            $id = $this->strId.'_'.$arrOption['value'];
+            $image = $this->imagePath.'/'.$arrOption['value'].$this->imageExt;
+
+            $arrOptions[] = sprintf(
+                '<div class="visualradio"><input type="radio" name="%s" id="%s" value="%s"%s%s onfocus="Backend.getScrollOffset()"><label for="%s">%s</label></div>',
                 $this->strName,
-                $option['value'],
-                $active ? 'checked' : '',
                 $id,
-                Image::getHtml($image, $option['value'])
+                StringUtil::specialchars($arrOption['value'] ?? ''),
+                $this->isChecked($arrOption),
+                $this->getAttributes(),
+                $id,
+                Image::getHtml($image, $arrOption['value'])
             );
         }
 
-        return '<div>' . $html . '</div>';
+        if (empty($arrOptions)) {
+            $arrOptions[] = '<p class="tl_noopt">'.$GLOBALS['TL_LANG']['MSC']['noResult'].'</p>';
+        }
+
+        return sprintf(
+            '<div class="visualradio-container%s" style="">%s</div>%s',
+            ($this->strClass ? ' '.$this->strClass : ''),
+            implode('', $arrOptions),
+            $this->wizard
+        );
     }
 }

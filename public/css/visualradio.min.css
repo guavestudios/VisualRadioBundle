@@ -1,0 +1,1 @@
+.visualradio-container{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;grid-gap:10px}.visualradio input{display:none}.visualradio input+label img{border:3px solid transparent}.visualradio input:checked+label img{border:3px solid #f47c00}
