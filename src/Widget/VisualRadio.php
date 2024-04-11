@@ -13,29 +13,23 @@ class VisualRadio extends Widget
 
 	protected $blnSubmitInput = true;
 
-	public $imageExt = '.jpg';
-
 	public function validator($varInput) {
 		return $varInput;
 	}
 
     public function generate(): string
 	{
-	    /** @var Result $activeRecord */
-		$activeRecord = $this->activeRecord;
-
-		$html = '<div>';
+        $html = '<div>';
 		foreach ($this->options as $k => $option) {
 			$id = $this->strName.'-'.$k;
-
-			$image = $this->imagepath.'/'.$option['value'].$this->imageExt;
-
+			$image = $this->imagepath.'/'.$option['value'].$this->imageext;
 			$active = $this->varValue === $option['value'];
+            $name = $option['name'] ?? $option['value'];
 
 			$html .= '<div style="width:25%;display: inline-block;text-align:center;margin-bottom:20px;">';
-			$html .= '<input type="radio" id="'.$id.'" name="'.$this->strName.'" value="'.$option['value'].'" '.( $active?'checked':'' ).' /> ';
+			$html .= '<input type="radio" id="'.$id.'" name="'.$this->strName.'" value="'.$option['value'].'" '.$this->getAttributes().( $active?'checked':'' ).' /> ';
 			$html .= '<label for="'.$id.'">';
-			$html .= Image::getHtml($image, $option['name'], 'title="'.specialchars($option['name']).'"');
+			$html .= Image::getHtml($image, $name, 'title="'.specialchars($name).'"');
 			$html .= '</label>';
 			$html .= '</div>';
 		}
