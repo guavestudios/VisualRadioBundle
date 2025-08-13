@@ -13,7 +13,7 @@
         <ini name="error_reporting" value="-1"/>
     </php>
     <testsuites>
-        <testsuite name="Guave Contao Skeleton Bundle">
+        <testsuite name="Guave Visual Radio Bundle">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

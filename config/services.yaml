@@ -3,5 +3,6 @@ services:
     autoconfigure: true
     autowire: true
 
-  Guave\VisualRadioBundle\EventListener\Contao\InitializeSystem:
-    public: true
+  Guave\VisualRadioBundle\:
+    resource: ../src
+    exclude: ../src/{ContaoManager,DependencyInjection}

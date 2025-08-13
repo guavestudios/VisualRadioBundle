@@ -16,8 +16,7 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(GuaveVisualRadioBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
-                ->setReplace(['visualradio']),
+                ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }
 }
