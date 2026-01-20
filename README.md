@@ -4,8 +4,8 @@ This is a small extension for Contao to display radio buttons with images.
 
 ## Requirements
 
-- Contao 4.13+
-- PHP 7.4 or 8.0+
+- Contao 5.0+
+- PHP 8.1+
 
 ## Install
 
